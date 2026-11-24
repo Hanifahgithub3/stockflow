@@ -14,6 +14,7 @@
         <a class="nav-link" href="{{ route('products.index') }}">Products</a>
         @if(auth()->user()->role === 'admin')
             <a class="nav-link" href="{{ route('categories.index') }}">Categories</a>
+            <a class="nav-link" href="{{ route('suppliers.index') }}">Suppliers</a>
         @endif
     </div>
     <span class="navbar-text me-3">{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>

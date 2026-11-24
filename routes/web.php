@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SupplierController;
 
 Route::get('/', fn () => redirect('/dashboard'));
 
@@ -17,6 +18,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
 
     Route::resource('categories', CategoryController::class)
+        ->except('show')
+        ->middleware('role:admin');
+
+            Route::resource('suppliers', SupplierController::class)
         ->except('show')
         ->middleware('role:admin');
 
