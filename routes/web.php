@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\PurchaseOrderController;
 
 Route::get('/', fn () => redirect('/dashboard'));
 
@@ -24,6 +25,13 @@ Route::middleware('auth')->group(function () {
             Route::resource('suppliers', SupplierController::class)
         ->except('show')
         ->middleware('role:admin');
+
+            Route::middleware('role:admin')->group(function () {
+        Route::resource('purchase-orders', PurchaseOrderController::class)
+            ->only(['index', 'create', 'store', 'show']);
+        Route::patch('purchase-orders/{purchaseOrder}/status', [PurchaseOrderController::class, 'updateStatus'])
+            ->name('purchase-orders.status');
+    });
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('products', ProductController::class)->except(['index', 'show']);
